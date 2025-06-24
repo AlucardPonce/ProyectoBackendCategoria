@@ -13,7 +13,6 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nombreCategoria;
-    private String categoriaAnterior;
     private String categoriaFederal;
     private String categoriaEstatal;
 }
