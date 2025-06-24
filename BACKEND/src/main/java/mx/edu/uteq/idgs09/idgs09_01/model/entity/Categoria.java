@@ -11,7 +11,7 @@ import lombok.Data;
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id; // <-- Cambia de int a Integer
     private String nombreCategoria;
     private String categoriaFederal;
     private String categoriaEstatal;

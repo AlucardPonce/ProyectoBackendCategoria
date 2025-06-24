@@ -3,7 +3,7 @@ package mx.edu.uteq.idgs09.idgs09_01.service;
 import mx.edu.uteq.idgs09.idgs09_01.model.entity.TipoRequisito;
 import mx.edu.uteq.idgs09.idgs09_01.model.entity.Categoria;
 import mx.edu.uteq.idgs09.idgs09_01.model.repository.TipoRequisitoRepository;
-import mx.edu.uteq.idgs09.idgs09_01.model.repository.CategoriaRepository;
+import mx.edu.uteq.idgs09.idgs09_01.model.repository.CategoriaRpository;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class TipoRequisitoService {
 
     private final TipoRequisitoRepository tipoRequisitoRepository;
-    private final CategoriaRepository categoriaRepository;
+    private final CategoriaRpository categoriaRepository;
 
     public List<TipoRequisito> findAll() {
         return tipoRequisitoRepository.findAll();
@@ -29,6 +29,8 @@ public class TipoRequisitoService {
         if (tipoRequisito.getCategoria() != null && tipoRequisito.getCategoria().getId() != null) {
             categoriaRepository.findById(tipoRequisito.getCategoria().getId())
                 .ifPresent(tipoRequisito::setCategoria);
+        } else {
+            tipoRequisito.setCategoria(null);
         }
         return tipoRequisitoRepository.save(tipoRequisito);
     }
