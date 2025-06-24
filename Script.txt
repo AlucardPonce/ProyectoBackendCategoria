@@ -1,18 +1,46 @@
+-- Crear base de datos
+CREATE DATABASE IF NOT EXISTS categoria;
+USE categoria;
+
+-- Tabla categoria
 CREATE TABLE categoria (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_categoria VARCHAR(100) NOT NULL,
     categoria_anterior VARCHAR(100),
     categoria_federal VARCHAR(100),
     categoria_estatal VARCHAR(100)
 );
 
-INSERT INTO categorias (nombre_categoria, categoria_anterior, categoria_federal, categoria_estatal) VALUES
-('Deportes', NULL, NULL, NULL),
-('Fútbol', 'Deportes', 'Federación Mexicana de Fútbol', 'Asociación Estatal de Fútbol'),
-('Baloncesto', 'Deportes', 'Federación Mexicana de Baloncesto', 'Asociación Estatal de Baloncesto'),
-('Atletismo', 'Deportes', 'Federación Mexicana de Atletismo', 'Asociación Estatal de Atletismo'),
-('Natación', 'Deportes', 'Federación Mexicana de Natación', 'Asociación Estatal de Natación'),
-('Voleibol', 'Deportes', 'Federación Mexicana de Voleibol', 'Asociación Estatal de Voleibol'),
-('Beisbol', 'Deportes', 'Federación Mexicana de Beisbol', 'Asociación Estatal de Beisbol'),
-('Ciclismo', 'Deportes', 'Federación Mexicana de Ciclismo', 'Asociación Estatal de Ciclismo');
+-- Tabla tipo_requisito
+CREATE TABLE tipo_requisito (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    categoria_id INT,
+    FOREIGN KEY (categoria_id) REFERENCES categoria(id) ON DELETE SET NULL
+);
 
+-- Tabla requisito
+CREATE TABLE requisito (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    descripcion VARCHAR(255) NOT NULL,
+    tipo_requisito_id INT,
+    FOREIGN KEY (tipo_requisito_id) REFERENCES tipo_requisito(id) ON DELETE CASCADE
+);
+
+-- Insertar datos en categoria
+INSERT INTO categoria (nombre_categoria, categoria_anterior, categoria_federal, categoria_estatal) VALUES
+('Administrativa', 'Admin Ant', 'Admin Fed', 'Admin Est'),
+('Financiera', 'Fin Ant', 'Fin Fed', 'Fin Est');
+
+-- Insertar datos en tipo_requisito
+INSERT INTO tipo_requisito (nombre, categoria_id) VALUES
+('Documentos Básicos', 1),
+('Comprobantes Fiscales', 2);
+
+-- Insertar datos en requisito
+INSERT INTO requisito (descripcion, tipo_requisito_id) VALUES
+('Acta constitutiva', 1),
+('Identificación oficial', 1),
+('Comprobante de domicilio', 1),
+('Factura electrónica', 2),
+('Recibo de pago', 2);

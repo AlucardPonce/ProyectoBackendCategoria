@@ -1,5 +1,6 @@
 package mx.edu.uteq.idgs09.idgs09_01.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,5 +17,6 @@ public class Requisito {
 
     @ManyToOne
     @JoinColumn(name = "tipo_requisito_id")
+    @JsonBackReference
     private TipoRequisito tipoRequisito;
 }

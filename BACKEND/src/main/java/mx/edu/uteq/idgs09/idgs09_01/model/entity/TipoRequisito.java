@@ -1,5 +1,6 @@
 package mx.edu.uteq.idgs09.idgs09_01.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -20,5 +21,6 @@ public class TipoRequisito {
     private Categoria categoria;
 
     @OneToMany(mappedBy = "tipoRequisito", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Requisito> requisitos;
 }
