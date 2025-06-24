@@ -1,4 +1,4 @@
-package mx.edu.uteq.idgs09.idgs09_01.repository;
+package mx.edu.uteq.idgs09.idgs09_01.model.repository;
 
 import mx.edu.uteq.idgs09.idgs09_01.model.entity.TipoRequisito;
 import org.springframework.data.jpa.repository.JpaRepository;
