@@ -1,14 +1,14 @@
 package mx.edu.uteq.idgs09.idgs09_01.service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
-import mx.edu.uteq.idgs09.idgs09_01.model.entity.Categorias;
-
-
-
+import mx.edu.uteq.idgs09.idgs09_01.model.entity.Categoria;
 
 public interface CategoriaService {
-
-    List<Categorias> findAll();
-
+    Categoria save(Categoria categoria);
+    List<Categoria> findAll();
+    Optional<Categoria> findById(int id);
+    Categoria update(int id, Categoria categoria);
+    void deleteById(int id);
 }
