@@ -4,20 +4,17 @@ import mx.edu.uteq.idgs09.idgs09_01.model.entity.TipoRequisito;
 import mx.edu.uteq.idgs09.idgs09_01.model.entity.Requisito;
 import mx.edu.uteq.idgs09.idgs09_01.service.TipoRequisitoService;
 import mx.edu.uteq.idgs09.idgs09_01.service.RequisitoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/tipos-requisito")
+@RequiredArgsConstructor
 public class TipoRequisitoController {
 
     private final TipoRequisitoService tipoRequisitoService;
     private final RequisitoService requisitoService;
-
-    public TipoRequisitoController(TipoRequisitoService tipoRequisitoService, RequisitoService requisitoService) {
-        this.tipoRequisitoService = tipoRequisitoService;
-        this.requisitoService = requisitoService;
-    }
 
     @GetMapping
     public List<TipoRequisito> getAll() {
