@@ -1,8 +1,12 @@
 package mx.edu.uteq.idgs09.idgs09_01.model.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Requisito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

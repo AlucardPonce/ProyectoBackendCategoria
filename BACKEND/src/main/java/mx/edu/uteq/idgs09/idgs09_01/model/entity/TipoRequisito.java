@@ -1,9 +1,13 @@
 package mx.edu.uteq.idgs09.idgs09_01.model.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TipoRequisito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +21,4 @@ public class TipoRequisito {
 
     @OneToMany(mappedBy = "tipoRequisito", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Requisito> requisitos;
-
-    // getters y setters
 }
