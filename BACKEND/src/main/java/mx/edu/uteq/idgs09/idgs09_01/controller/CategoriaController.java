@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.Optional;
 
 import mx.edu.uteq.idgs09.idgs09_01.model.entity.Categoria;
-import mx.edu.uteq.idgs09.idgs09_01.service.CategoriaService;
+import mx.edu.uteq.idgs09.idgs09_01.service.impl.CategoriaServiceImpl;
 
 @RestController
 @RequestMapping("/api/categorias")
 public class CategoriaController {
 
-    private final CategoriaService service;
+    private final CategoriaServiceImpl service;
 
     @Autowired
-    public CategoriaController(CategoriaService service) {
+    public CategoriaController(CategoriaServiceImpl service) {
         this.service = service;
     }
 
