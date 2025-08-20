@@ -35,4 +35,32 @@ public class RequisitoService {
     public void deleteById(Integer id) {
         requisitoRepository.deleteById(id);
     }
+
+    // Método para obtener todos los requisitos
+    public List<Requisito> findAll() {
+        return requisitoRepository.findAll();
+    }
+
+    // Método para actualizar un requisito
+    public Requisito update(Integer id, Requisito requisitoActualizado) {
+        return requisitoRepository.findById(id).map(requisito -> {
+            requisito.setDescripcion(requisitoActualizado.getDescripcion());
+            // Mantener la relación con TipoRequisito si no se especifica una nueva
+            if (requisitoActualizado.getTipoRequisito() != null) {
+                requisito.setTipoRequisito(requisitoActualizado.getTipoRequisito());
+            }
+            return requisitoRepository.save(requisito);
+        }).orElse(null);
+    }
+
+    // Método para actualizar un requisito con nuevo tipo
+    public Requisito updateWithTipo(Integer id, Integer tipoRequisitoId, Requisito requisitoActualizado) {
+        return requisitoRepository.findById(id).map(requisito -> {
+            requisito.setDescripcion(requisitoActualizado.getDescripcion());
+            return tipoRequisitoRepository.findById(tipoRequisitoId).map(tipo -> {
+                requisito.setTipoRequisito(tipo);
+                return requisitoRepository.save(requisito);
+            }).orElse(null);
+        }).orElse(null);
+    }
 }

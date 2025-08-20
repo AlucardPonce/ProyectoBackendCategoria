@@ -3,37 +3,79 @@ package mx.edu.uteq.idgs09.idgs09_01.controller;
 import mx.edu.uteq.idgs09.idgs09_01.service.RequisitoService;
 import mx.edu.uteq.idgs09.idgs09_01.model.entity.Requisito;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/api/requisitos")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class RequisitoController {
 
     private final RequisitoService requisitoService;
 
-    // Obtener todos los requisitos de un tipo
-    @GetMapping("/requisitos/tipo/{tipoRequisitoId}")
+    // ✅ GET: Obtener todos los requisitos
+    @GetMapping
+    public List<Requisito> getAllRequisitos() {
+        return requisitoService.findAll();
+    }
+
+    // ✅ GET: Obtener todos los requisitos de un tipo específico
+    @GetMapping("/tipo/{tipoRequisitoId}")
     public List<Requisito> getByTipoRequisito(@PathVariable Integer tipoRequisitoId) {
         return requisitoService.findByTipoRequisitoId(tipoRequisitoId);
     }
 
-    // Obtener un requisito por ID
-    @GetMapping("/requisitos/{id}")
-    public Requisito getById(@PathVariable Integer id) {
-        return requisitoService.findById(id).orElse(null);
+    // ✅ GET: Obtener un requisito por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Requisito> getById(@PathVariable Integer id) {
+        Optional<Requisito> requisito = requisitoService.findById(id);
+        return requisito.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Crear un requisito (requiere el id del tipo)
-    @PostMapping("/requisitos/tipo/{tipoRequisitoId}")
-    public Requisito create(@PathVariable Integer tipoRequisitoId, @RequestBody Requisito requisito) {
-        return requisitoService.save(tipoRequisitoId, requisito);
+    // ✅ POST: Crear un requisito (requiere el id del tipo)
+    @PostMapping("/tipo/{tipoRequisitoId}")
+    public ResponseEntity<Requisito> create(@PathVariable Integer tipoRequisitoId, @RequestBody Requisito requisito) {
+        Requisito nuevoRequisito = requisitoService.save(tipoRequisitoId, requisito);
+        if (nuevoRequisito != null) {
+            return ResponseEntity.ok(nuevoRequisito);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
-    // Eliminar un requisito
-    @DeleteMapping("/requisitos/{id}")
-    public void deleteRequisito(@PathVariable Integer id) {
-        requisitoService.deleteById(id);
+    // ✅ PUT: Actualizar un requisito existente
+    @PutMapping("/{id}")
+    public ResponseEntity<Requisito> update(@PathVariable Integer id, @RequestBody Requisito requisito) {
+        Requisito requisitoActualizado = requisitoService.update(id, requisito);
+        if (requisitoActualizado != null) {
+            return ResponseEntity.ok(requisitoActualizado);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    // ✅ PUT: Actualizar un requisito y cambiar su tipo
+    @PutMapping("/{id}/tipo/{tipoRequisitoId}")
+    public ResponseEntity<Requisito> updateWithTipo(@PathVariable Integer id,
+            @PathVariable Integer tipoRequisitoId,
+            @RequestBody Requisito requisito) {
+        Requisito requisitoActualizado = requisitoService.updateWithTipo(id, tipoRequisitoId, requisito);
+        if (requisitoActualizado != null) {
+            return ResponseEntity.ok(requisitoActualizado);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    // ✅ DELETE: Eliminar un requisito
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRequisito(@PathVariable Integer id) {
+        Optional<Requisito> requisito = requisitoService.findById(id);
+        if (requisito.isPresent()) {
+            requisitoService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
